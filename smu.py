@@ -2,7 +2,10 @@
 
 import sys
 import re
-import fixlist
+import sens_1_0_0
+
+sens_1_0_0.fix_list()
+
 
 def make_body(content: str) -> str:
     res = ""
@@ -18,7 +21,7 @@ def make_body(content: str) -> str:
                     cn = "quote"
             content = line[3:]
         content = content.strip()
-        res +=f"<div class=\"{cn}\">{content}</div>\n"
+        res += f"<div class=\"{cn}\">{content}</div>\n"
     return res
 
 
@@ -33,7 +36,6 @@ def make_header(css: bool) -> str:
     ''' + ((r'<style>' + make_css() + '</style>') if css else '') + r'''
 </head>
 <body>'''
-
 
 
 def make_css() -> str:
@@ -71,6 +73,7 @@ if __name__ == "__main__":
     with open(sys.argv[1], "rt", encoding="utf-8") as iF, open(sys.argv[2], "wt", encoding="utf-8") as oF:
         oF.write(make_header(True))
         oF.write(
-                "".join(make_body(iF.read()).split("\n").map(lambda s: "    " + s + "\n"))
+            "".join(make_body(iF.read()).split(
+                "\n").map(lambda s: "    " + s + "\n"))
         )
         oF.write(make_footer())
